@@ -1,0 +1,3 @@
+# This file ensures the certificates directory is tracked in git
+# SSL certificates (*.pem, *.pfx) are excluded via .gitignore for security
+# Run: python generate_certificates.py to create certificates locally

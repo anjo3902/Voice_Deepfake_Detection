@@ -20,7 +20,7 @@ Voice_Deepfake_Detection/
 ├── 🔧 utils.py                          ← Dataset utilities & testing tools
 ├── 🎓 train_comprehensive.py            ← Comprehensive training script
 ├── 🌐 serve_https.py                    ← HTTPS frontend server (port 3000)
-├── 📄 comprehensive_push.py             ← Git automation script
+├── � generate_certificates.py          ← SSL certificate generator
 │
 ├── 📁 backend/                          ← Flask REST API + Deep Learning Model
 │   ├── requirements.txt                 ← Python dependencies
@@ -39,9 +39,9 @@ Voice_Deepfake_Detection/
 │       ├── index.html                   ← Main HTML file
 │       └── assets/                      ← CSS/JS bundles
 │
-├── 📁 certificates/                     ← SSL certificates for HTTPS
-│   ├── cert.pem                         ← SSL certificate
-│   └── key.pem                          ← Private key
+├── 📁 certificates/                     ← SSL certificates (generated locally)
+│   ├── cert.pem                         ← SSL certificate (not in repo)
+│   └── key.pem                          ← Private key (not in repo)
 │
 └── 📁 data/                             ← Training datasets (not in repo)
     ├── ASVspoof2019/                    ← ASVspoof 2019 LA dataset
@@ -82,6 +82,14 @@ source .venv/bin/activate
 ```bash
 pip install -r backend/requirements.txt
 ```
+
+4. **Generate SSL Certificates** (Required for HTTPS)
+```bash
+python generate_certificates.py
+```
+This will create self-signed SSL certificates in the `certificates/` folder.
+
+> **Note**: Certificates are not included in the repository for security reasons. The script generates them automatically.
 
 ### Running the Application
 
@@ -364,10 +372,36 @@ Content-Type: multipart/form-data
 
 ## 🔒 SECURITY
 
-The application uses self-signed SSL certificates for HTTPS:
-- **Location**: `certificates/cert.pem`, `certificates/key.pem`
-- **Note**: Browsers will show security warnings (expected)
-- **Production**: Replace with proper SSL certificates from Let's Encrypt or CA
+### SSL Certificates
+
+The application uses self-signed SSL certificates for HTTPS encryption:
+
+**Generation:**
+```bash
+python generate_certificates.py
+```
+
+**Important Notes:**
+- ❌ Certificates are **NOT included** in the repository for security best practices
+- ✅ Generated automatically on first setup using `generate_certificates.py`
+- ⚠️ Browsers will show security warnings (expected for self-signed certs)
+- 🔄 Valid for 365 days, regenerate after expiration
+
+**Files Created:**
+- `certificates/cert.pem` - SSL certificate
+- `certificates/key.pem` - Private key (keep secure!)
+
+**Production Deployment:**
+Replace self-signed certificates with proper SSL certificates from:
+- **Let's Encrypt** (free, automated)
+- **Commercial Certificate Authority** (DigiCert, Comodo, etc.)
+
+### Why Certificates Aren't in the Repo
+
+Including SSL private keys in public repositories is a security risk. Even for development, it's best practice to:
+1. Generate certificates locally
+2. Keep them out of version control (via `.gitignore`)
+3. Provide generation scripts for easy setup
 
 ---
 
@@ -385,6 +419,12 @@ The application uses self-signed SSL certificates for HTTPS:
 
 ## 🐛 TROUBLESHOOTING
 
+**Issue: Certificate not found error**
+```bash
+# Run the certificate generator first
+python generate_certificates.py
+```
+
 **Issue: ModuleNotFoundError**
 ```bash
 pip install -r backend/requirements.txt
@@ -397,9 +437,21 @@ netstat -ano | findstr :5000
 taskkill /PID <PID> /F
 ```
 
-**Issue: SSL Certificate Warning**
+**Issue: SSL Certificate Warning in Browser**
 - Expected for self-signed certificates
 - Click "Advanced" → "Proceed to localhost"
+- This is normal for development environments
+
+**Issue: OpenSSL not found when generating certificates**
+```bash
+# Install cryptography library as fallback
+pip install cryptography
+
+# Or install OpenSSL:
+# Windows: https://slproweb.com/products/Win32OpenSSL.html
+# Linux: sudo apt-get install openssl
+# macOS: brew install openssl
+```
 
 ---
 
