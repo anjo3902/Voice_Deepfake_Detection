@@ -5,9 +5,10 @@ __pycache__/
 *.so
 .Python
 *.egg-info/
-dist/
 build/
 *.egg
+# Python package distributions (but allow frontend/dist)
+*.egg-info/dist/
 
 # Virtual Environment
 .venv/
