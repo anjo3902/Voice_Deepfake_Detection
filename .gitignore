@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# PyTorch Models
+*.pth
+*.pt
+*.ckpt
+!backend/checkpoints/zero_download_model.pth
+!backend/checkpoints/best.pth
+
+# Data - too large for GitHub
+data/ASVspoof2019/
+data/downloaded_dataset/
+data/modern_tts_samples/
+data/your_voice_samples/
+
+# Logs
+*.log
+logs/
+*.out
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Certificates
+certificates/*.pem
+certificates/*.pfx
+!certificates/.gitkeep
+
+# Uploads
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Temporary
+*.tmp
+*.bak
+tmp/
+temp/
+
+# Node
+node_modules/
+package-lock.json
